@@ -2,6 +2,9 @@
 # Synthetic Household Travel Data (NHTS 2017) — CTGAN Starter
 
 This repository scaffolds your **EEE6778 Deliverable 1** project: *Synthetic Household Travel Data Generation using Conditional Tabular GAN (CTGAN)*.
+This project explores how Conditional Tabular GAN (CTGAN) can generate synthetic but realistic household travel microdata using the 2017 National Household Travel Survey (NHTS).
+
+By learning statistical relationships among key attributes – such as household size, vehicle ownership, income level, and daily trip count – the model can produce privacy-preserving datasets that mirror real mobility patterns while enabling data sharing for transportation research and policy analysis.
 
 ## Repo Structure
 ```
@@ -63,6 +66,23 @@ streamlit run ui/streamlit_app.py
 ## Data notes
 - Place original NHTS CSVs under `data/raw/` (ignored by git).
 - `data/sample/household_sample.csv` is a tiny synthetic-like subset for environment checks only.
+
+## Dataset Information
+
+Source: U.S. Department of Transportation – National Household Travel Survey 2017
+
+Type: Tabular (mixed categorical and numerical)
+
+Files used: Household and Person tables
+
+Sample size (after cleaning): ≈ 84 000 households
+
+Selected Features: HHVEHCNT, HHSIZE, HHFAMINC, URBRUR, CNTTDHH, R_AGE_IMP, DRIVER, WORKER
+
+Cleaning Rules:
+(2) Keep households where HHSIZE = person count
+(5) Keep households whose members are all in-town (OUTOFTWN == 2, OUTCNTRY == 2)
+
 
 ## GitHub — First Commit
 ```bash
