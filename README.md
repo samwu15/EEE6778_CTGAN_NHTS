@@ -1,95 +1,50 @@
 
-# Synthetic Household Travel Data (NHTS 2017) — CTGAN Starter
+# Ancient-to-Film GAN
+This project converts **ancient Chinese landscape paintings** into **modern film-style photographs** using a **GAN-based image-to-image translation pipeline** (CycleGAN / Pix2Pix).  
+Deliverable 1 demonstrates dataset loading, environment setup, a tiny generator test, and an interactive demo UI.
+Model Design
 
-This repository scaffolds your **EEE6778 Deliverable 1** project: *Synthetic Household Travel Data Generation using Conditional Tabular GAN (CTGAN)*.
-This project explores how Conditional Tabular GAN (CTGAN) can generate synthetic but realistic household travel microdata using the 2017 National Household Travel Survey (NHTS).
+Unpaired translation (default): CycleGAN — translates between Domain A (ancient drawings) and Domain B (film-style photos) without one-to-one pairing.
+Paired translation (optional): Pix2Pix — supervised learning for aligned image pairs.
+The current prototype uses a Tiny Generator as a proof of concept. Future iterations will integrate the full CycleGAN architecture with adversarial, cycle-consistency, and identity losses.
 
-By learning statistical relationships among key attributes – such as household size, vehicle ownership, income level, and daily trip count – the model can produce privacy-preserving datasets that mirror real mobility patterns while enabling data sharing for transportation research and policy analysis.
+Dataset
 
-## Repo Structure
-```
-data/
-  raw/                # put original NHTS CSVs here (not committed)
-  sample/             # small samples for quick tests
-notebooks/
-  setup.ipynb         # environment, data loading, first EDA plot
-src/
-  data_prep.py        # cleaning & preprocessing helpers (rules 2,4,5)
-  train_ctgan.py      # minimal CTGAN training script
-  evaluate.py         # real vs synthetic evaluation (KS/MMD/corr)
-ui/
-  streamlit_app.py    # interactive demo to generate & compare data
-results/
-  # early figures or logs
-docs/
-  architecture.md     # data → model → inference → UI diagram
-requirements.txt
-environment.yml
-```
+Domain A: Ancient Chinese landscape paintings
+Domain B: Modern film-style photographs
+All images are resized to 256×256 and normalized to [-1, 1].
+A small subset (~50–100 images per domain) is included for demonstration; full datasets are excluded from GitHub for size and copyright reasons.
 
-## Quickstart
-### Main Notebook
-`notebooks/nhts_ctgan_training.ipynb` – loads NHTS 2017 data, applies cleaning rules (2 & 5), trains CTGAN, and evaluates real vs synthetic results.
+Results
 
-### 1) Create environment & install
-```bash
-# Conda (recommended)
-conda env create -f environment.yml
-conda activate nhts-ctgan
+After running the toy demo, generated samples will appear in results/samples/, such as toy_step_000.png and toy_step_001.png. These verify that the data pipeline, model, and output generation work correctly.
 
-# Or pip
-python -m venv .venv && source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-```
+Responsible AI Reflection
 
-### 2) Verify with the notebook
-```bash
-jupyter lab  # or: jupyter notebook
-# Open notebooks/setup.ipynb and run all cells
-```
-
-### 3) Train CTGAN (toy run)
-```bash
-python src/train_ctgan.py --data data/sample/household_sample.csv --out results/ctgan_sample.pkl
-```
-
-### 4) Evaluate
-```bash
-python src/evaluate.py --real data/sample/household_sample.csv --synthetic results/synth_sample.csv --report results/report.json
-```
-
-### 5) Run the Streamlit UI
-```bash
-streamlit run ui/streamlit_app.py
-```
-
-## Data notes
-- Place original NHTS CSVs under `data/raw/` (ignored by git).
-- `data/sample/household_sample.csv` is a tiny synthetic-like subset for environment checks only.
-
-## Dataset Information
-
-Source: U.S. Department of Transportation – National Household Travel Survey 2017
-
-Type: Tabular (mixed categorical and numerical)
-
-Files used: Household and Person tables
-
-Sample size (after cleaning): ≈ 84 000 households
-
-Selected Features: HHVEHCNT, HHSIZE, HHFAMINC, URBRUR, CNTTDHH, R_AGE_IMP, DRIVER, WORKER
-
-Cleaning Rules:
-(2) Keep households where HHSIZE = person count
-(5) Keep households whose members are all in-town (OUTOFTWN == 2, OUTCNTRY == 2)
+Authenticity & Cultural Context: The generated outputs are artistic reinterpretations of ancient art, not authentic historical photographs.
+Fair Use: All art sources are credited; outputs are for academic demonstration only and not for commercial use.
+Environmental Impact: Training and inference are kept lightweight (≤ 50 iterations) to reduce computational load.
 
 
-## GitHub — First Commit
-```bash
-git init
-git add .
-git commit -m "Initial commit: EEE6778 CTGAN starter"
-git branch -M main
-git remote add origin <YOUR_GITHUB_REPO_URL>
-git push -u origin main
-```
+EEE6778_CTGAN_NHTS/
+├─ data/
+│  ├─ A/  ← Ancient drawings
+│  └─ B/  ← Film-style photos
+├─ notebooks/
+│  └─ setup.ipynb          # Environment + data check + TinyGen forward test
+├─ src/
+│  ├─ datasets.py
+│  ├─ models/
+│  │   └─ cyclegan.py
+│  ├─ trainers/
+│  │   └─ train_cyclegan.py
+│  └─ __init__.py
+├─ ui/
+│  └─ streamlit_app.py     # Gradio UI demo
+├─ docs/
+│  ├─ architecture.md      # Flowchart + component overview
+│  └─ wireframe.png        # Optional UI sketch
+├─ results/
+│  └─ samples/             # Toy outputs / training previews
+├─ requirements.txt
+└─ README.md

@@ -1,12 +1,18 @@
 
-# System Architecture (Planned)
+# Architecture Design — Ancient-to-Film GAN
 
-```
-NHTS 2017 CSVs  ──>  Preprocessing (rules 2,4,5)  ──>  CTGAN Training  ──>  Synthetic Households
-                       |                                    |                   |
-                       |                                    v                   v
-                       └──────────────>  Evaluation (KS/MMD/Correlation)  ──>  Plots & Report
-                                                                             |
-                                                                             v
-                                                                  Streamlit Interactive UI
-```
+## 1. Overview
+This project converts **ancient drawings (Domain A)** into **modern film-style photos (Domain B)** using **GAN-based image-to-image translation**.
+
+## 2. Data Flow
+```mermaid
+flowchart LR
+    A[Domain A: Ancient Drawings] --> P[Preprocess]
+    B[Domain B: Film-Style Photos] --> P
+    P --> M{Model}
+    M -->|Unpaired| C[CycleGAN]
+    M -->|Paired| X[Pix2Pix]
+    C --> I[Inference]
+    X --> I
+    I --> UI[Gradio UI]
+    UI --> R[Results & Logs]
