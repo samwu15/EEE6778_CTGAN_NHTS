@@ -26,25 +26,3 @@ Fair Use: All art sources are credited; outputs are for academic demonstration o
 Environmental Impact: Training and inference are kept lightweight (≤ 50 iterations) to reduce computational load.
 
 
-EEE6778_CTGAN_NHTS/
-├─ data/
-│  ├─ A/  ← Ancient drawings
-│  └─ B/  ← Film-style photos
-├─ notebooks/
-│  └─ setup.ipynb          # Environment + data check + TinyGen forward test
-├─ src/
-│  ├─ datasets.py
-│  ├─ models/
-│  │   └─ cyclegan.py
-│  ├─ trainers/
-│  │   └─ train_cyclegan.py
-│  └─ __init__.py
-├─ ui/
-│  └─ streamlit_app.py     # Gradio UI demo
-├─ docs/
-│  ├─ architecture.md      # Flowchart + component overview
-│  └─ wireframe.png        # Optional UI sketch
-├─ results/
-│  └─ samples/             # Toy outputs / training previews
-├─ requirements.txt
-└─ README.md
