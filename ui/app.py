@@ -2,7 +2,13 @@
 import sys
 from pathlib import Path
 from typing import Tuple
+import sys
+from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
 # --- 將專案 src/ 加入 Python 路徑 ---
 ROOT = Path(__file__).resolve().parents[1]
 SRC_DIR = ROOT / "src"
